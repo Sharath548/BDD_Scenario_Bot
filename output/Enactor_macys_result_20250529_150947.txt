@@ -1,0 +1,22 @@
+ Feature: Verify Certificate of Completion
+
+    Scenario: User wants to verify a certificate for a specific employee
+      Given I am an administrator with access to the employee management system
+      And I have the necessary credentials to log in
+      When I navigate to the "Employee" section and search for "sharath chandrareddy"
+      And I select the appropriate result from the search results
+      When I go to the "Certificates" tab for the selected employee
+      Then I should see a certificate named "Macys Introduction to Enactor Certification Test ap 1, 2028, 217 pm Mike Carrell" in the list
+      And when I click on this certificate
+      Then I should be able to view its details such as issue date, issuer name, and whether the employee has passed or failed
+      And the certificate status should show "Passed" for the selected employee
+
+    Scenario: User wants to verify if a specific certificate exists for an employee but it does not exist
+      Given I am an administrator with access to the employee management system
+      And I have the necessary credentials to log in
+      When I navigate to the "Employee" section and search for "sharath chandrareddy"
+      And I select the appropriate result from the search results
+      When I go to the "Certificates" tab for the selected employee
+      Then I should not see a certificate named "Macys Introduction to Enactor Certification Test ap 1, 2028, 217 pm Mike Carrell" in the list
+      And when I search for that specific certificate within all employees
+      Then I should not find any matching results

@@ -1,0 +1,26 @@
+ Feature: Verifying the Text Data in the System
+
+   Scenario: Text data is displayed
+      Given The text data has been loaded and displayed on the system
+      When I scan the text data for "Certificate of Completion"
+      Then I should find "Certificate of Completion" in the displayed text data
+
+   Scenario: Checking the name of the recipient
+      Given I have found "Certificate of Completion" in the displayed text data
+      When I check the name of the certificate recipient
+      Then I should see "sharath chandrareddy nas" as the recipient's name
+
+   Scenario: Checking the place and date of completion
+      Given I have found the correct Certificate of Completion for sharath chandrareddy nas
+      When I verify the place and date of completion
+      Then I should see "Macy's Introduction to Enactor Certification Test" as the course, "ap 1, 2028" as the date, and "217 pm" as the time
+
+   Scenario: Checking if the text data indicates successful completion
+      Given I have found the correct Certificate of Completion for sharath chandrareddy nas
+      When I verify if the certificate indicates successful completion
+      Then I should see that the certificate has been successfully completed by sharath chandrareddy nas
+
+   Scenario: Verifying the signature on the certificate
+      Given I have found the correct Certificate of Completion for sharath chandrareddy nas
+      When I verify the signature on the certificate
+      Then I should see a valid signature from "Mike Carrell" on the certificate

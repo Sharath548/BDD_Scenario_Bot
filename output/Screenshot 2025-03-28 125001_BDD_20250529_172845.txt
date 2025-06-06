@@ -1,0 +1,24 @@
+ Scenario: Verify the presence of "Holidays" in the text
+       Given I have a text containing details related to holidays
+       When I check if the text contains the phrase "Holidays"
+       Then the result should be true
+
+   Scenario: Extract the number of fixed holidays for the given year
+       Given I have a text containing details about fixed holidays for a specific year
+       When I extract the number of fixed holidays from the text
+       Then the extracted number of fixed holidays should be zero
+
+   Scenario: Extract the number of restricted holidays for the given year
+       Given I have a text containing details about restricted holidays for a specific year
+       When I extract the number of restricted holidays from the text
+       Then the extracted number of restricted holidays should be zero
+
+   Scenario: Verify the presence of a QR code in the text
+       Given I have a text containing various elements including possibly a QR code
+       When I check if the text contains the phrase "QR code" or any QR code image
+       Then the result should indicate whether the QR code is present or not
+
+   Scenario: Extract the name of the page being displayed in the text
+       Given I have a text containing details related to various pages, requests, etc.
+       When I extract the name of the currently displayed page from the text
+       Then the extracted page name should be "Holiday calendar" or any similar contextual match if the actual name is not provided.

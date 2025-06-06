@@ -1,0 +1,44 @@
+ Feature: Verifying Certificate of Completion in Retail Application
+
+    Scenario: Validating a valid Certificate of Completion
+        Given I am logged into the Retail application as an administrator
+        And there is a Certificate of Completion with the name "sharath chandrareddy nas" and status "successfully completed"
+        When I navigate to the Certificates of Completion section
+        And I search for the certificate by the name "sharath chandrareddy nas"
+        Then I should see a matching certificate with details "Macys Introduction to Enactor Certification Test", "ap 1, 2028, 217 pm", and "Mike Carrell"
+        And the status of the certificate should be displayed as "successfully completed"
+
+    Scenario: Verifying an invalid Certificate of Completion (missing name)
+        Given I am logged into the Retail application as an administrator
+        And there is a Certificate of Completion with only the name missing
+        When I navigate to the Certificates of Completion section
+        And I search for the certificate by the name "sharath chandrareddy nas"
+        Then no matching certificates should be found
+
+    Scenario: Verifying an invalid Certificate of Completion (missing status)
+        Given I am logged into the Retail application as an administrator
+        And there is a Certificate of Completion with only the status missing
+        When I navigate to the Certificates of Completion section
+        And I search for the certificate by the name "sharath chandrareddy nas"
+        Then no matching certificates should be found
+
+    Scenario: Verifying an invalid Certificate of Completion (missing course details)
+        Given I am logged into the Retail application as an administrator
+        And there is a Certificate of Completion with only the course details missing
+        When I navigate to the Certificates of Completion section
+        And I search for the certificate by the name "sharath chandrareddy nas"
+        Then no matching certificates should be found
+
+    Scenario: Verifying an invalid Certificate of Completion (missing date and time)
+        Given I am logged into the Retail application as an administrator
+        And there is a Certificate of Completion with only the date and time missing
+        When I navigate to the Certificates of Completion section
+        And I search for the certificate by the name "sharath chandrareddy nas"
+        Then no matching certificates should be found
+
+    Scenario: Verifying an invalid Certificate of Completion (missing issuer)
+        Given I am logged into the Retail application as an administrator
+        And there is a Certificate of Completion with only the issuer missing
+        When I navigate to the Certificates of Completion section
+        And I search for the certificate by the name "sharath chandrareddy nas"
+        Then no matching certificates should be found

@@ -1,0 +1,35 @@
+ Feature: User Dashboard Interaction (Retail Application)
+
+   Scenario: Verify User's Name and Account Balance on the Dashboard
+
+      Given I have logged in to the Retail application as "SHARATH CHANDRA REDDY KAKULAVARAM"
+      Then I should see my name displayed at the top of the dashboard
+      And I should see a visible balance amount (in INR) on the dashboard
+
+   Scenario: Verify Recent Transactions Listing on the Dashboard
+
+      Given I have logged in to the Retail application as "SHARATH CHANDRA REDDY KAKULAVARAM"
+      And I am viewing my account's dashboard
+      Then I should see a table with my recent transactions listed
+      And each transaction row should contain details like Transaction No., Recipient, Date, Amount (in INR or relevant currency), FX rate (if applicable), and Status.
+
+   Scenario: Verify the Details of a Specific Transaction on the Dashboard
+
+      Given I have logged in to the Retail application as "SHARATH CHANDRA REDDY KAKULAVARAM"
+      And I am viewing my account's dashboard with my recent transactions listed
+      When I click on the "View" button for a specific transaction
+      Then I should be navigated to a page showing detailed information about that transaction.
+
+   Scenario: Verify the Amount Conversion in Recent Transactions Listing
+
+      Given I have logged in to the Retail application as "SHARATH CHANDRA REDDY KAKULAVARAM"
+      And I am viewing my account's dashboard with my recent transactions listed
+      Then the total amount for each currency should be converted and displayed in INR, using a clear and consistent format.
+
+   Scenario: Verify Link to External Blog on the Dashboard
+
+      Given I have logged in to the Retail application as "SHARATH CHANDRA REDDY KAKULAVARAM"
+      And I am viewing my account's dashboard
+      Then I should see a link to the latest updates on the company's blogs.
+      When I click on that link,
+      Then I should be navigated to an external webpage containing the latest updates or blog posts.

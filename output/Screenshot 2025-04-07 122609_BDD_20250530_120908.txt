@@ -1,0 +1,21 @@
+ Feature: Verifying the presence of "vaware Horizon Client" in application list
+
+   Scenario: User logs into the system
+      Given I have logged into the retail system as an authorized user
+      When I navigate to the applications section
+      Then I should see a list of installed applications on my device
+
+   Scenario: Application list is displayed
+      Given The applications list has been loaded and displayed
+      When I scan the application list for "vaware Horizon Client"
+      Then I should find "vaware Horizon Client - a x VMware Horizon Client" in the list of installed applications
+
+   Scenario: Checking the number of instances for "vaware Horizon Client"
+      Given I have found "vaware Horizon Client - a x VMware Horizon Client" in the list of installed applications
+      When I check the number of instances of this application
+      Then I should see a number indicating multiple instances (e.g., 2, 3, or more)
+
+   Scenario: Launching "vaware Horizon Client" from the list
+      Given I have found "vaware Horizon Client - a x VMware Horizon Client" in the list of installed applications and there are multiple instances available
+      When I select one instance to launch
+      Then The VMware Horizon Client application should open with its main interface visible

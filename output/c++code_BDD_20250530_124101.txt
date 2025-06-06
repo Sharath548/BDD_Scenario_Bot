@@ -1,0 +1,31 @@
+ Feature: Verifying the Correctness of Bubble Sort Function
+
+   Scenario: Executing the Bubble Sort function with an array of integers
+      Given I have an integer array defined as follows: [64, 34, 25, 12, 22, 11, 90]
+      When I execute the bubbleSort function on this array and get a sorted array
+      Then The sorted array should be in ascending order: [11, 12, 22, 25, 34, 64, 90]
+
+   Scenario: Verifying the correctness of the helper printArray function for arrays
+      Given I have an integer array defined as follows: [64, 34, 25, 12, 22, 11, 90]
+      When I call the printArray function with this array and its size
+      Then The output should display the original unsorted array followed by the sorted array separated by a newline: "Original array:\n64 34 25 12 22 11 90\nSorted array:\n11 12 22 25 34 64 90"
+
+   Scenario: Checking the size of the input integer array for bubbleSort function
+      Given I have an integer array defined with a specific size
+      When I call the bubbleSort function with this array and its size
+      Then The size passed to the bubbleSort function should match the actual size of the array
+
+   Scenario: Checking the execution of the if condition in the bubbleSort function
+      Given I have an integer array defined as follows: [64, 34, 25, 12, 22, 11, 90]
+      When I run the bubbleSort function on this array and check for swaps during sorting
+      Then The if condition in the bubbleSort function should trigger swaps when necessary to sort the array correctly
+
+   Scenario: Checking the swap operation within the bubbleSort function
+      Given I have an integer array defined as follows: [64, 34, 25, 12, 22, 11, 90]
+      When I run the bubbleSort function on this array and observe the swap operations
+      Then The correct elements should be swapped during the sorting process to achieve a sorted array: [64->34, 34->25, 25->12, 12->22, 22->11]
+
+   Scenario: Verifying the existence of the temp variable in the bubbleSort function
+      Given I have an integer array defined as follows: [64, 34, 25, 12, 22, 11, 90]
+      When I run the bubbleSort function on this array and observe the usage of the temp variable
+      Then The temp variable should be used to store and swap the elements in the correct positions during sorting
