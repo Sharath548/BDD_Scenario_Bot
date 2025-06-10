@@ -1,0 +1,36 @@
+ Feature: Verifying Text Data Analysis in the System - Retail (Enhanced)
+
+   Scenario: Analyzing Loyalty Enrollment Information (Revised)
+      Given I have the text data related to a Bronze Enrollment Loyalty Call
+      When I analyze the text data for the enrollment trigger and phone number information
+      Then I should find the trigger type as "Phone Number Capture" and the phone number present in the text data
+
+   Scenario: Checking for Customer Demographic Information (Revised)
+      Given I have the text data related to a Bronze Enrollment Loyalty Call
+      When I analyze the text data for customer demographic information (First Name, Last Name, Date of Birth, and Email)
+      Then I should find that all the required demographic information is present in the text data but the system cannot process it due to an error
+
+   Scenario: Verifying Tender Call and Loyalty Process Information (Revised)
+      Given I have the text data related to a Bronze Enrollment Loyalty Call
+      When I analyze the text data for purchase (basket), tender, and loyalty process information
+      Then I should find that the tender involves loyalty process transaction but the call status is unavailable
+
+   Scenario: Checking for Loyalty Lookup Summary Errors (Revised)
+      Given I have the text data related to a Bronze Enrollment Loyalty Call
+      When I analyze the text data for potential errors in the loyalty lookup summary
+      Then I should find any errors in the displayed loyalty lookup summary, as it indicates an unavailable service or error in processing customer details
+
+   Scenario: Text Data Analysis - Certificate of Completion (Revised)
+      Given The text data has been loaded and displayed on the system
+      When I scan the text data for "Certificate of Completion"
+      Then I should find "Certificate of Completion" in the displayed text data but it does not contain necessary details to validate the certificate
+
+   Scenario: Checking the name of the recipient (Revised)
+      Given I have found a Certificate of Completion mention in the displayed text data
+      When I check the name of the certificate recipient
+      Then I should see an empty or invalid recipient's name as the system cannot process it due to error
+
+   Scenario: Checking the place and date of completion (Revised)
+      Given I have found an empty or invalid Certificate of Completion mention in the displayed text data
+      When I verify the place and date of completion
+      Then I should see that there is no course, date, time, or any other relevant information related to the certificate

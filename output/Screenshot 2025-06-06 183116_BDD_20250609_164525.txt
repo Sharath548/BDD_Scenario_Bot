@@ -1,0 +1,41 @@
+ Feature: Product Search Functionality
+
+   Scenario: User searches for a product by its name
+      Given I am on the homepage of the retail website
+      When I enter "Nike Air Max 270" in the search bar and click search
+      Then I should see the Nike Air Max 270 product listed in the search results
+
+   Scenario: User searches for a product by its category
+      Given I am on the homepage of the retail website
+      When I navigate to "Men's Shoes" category and click search
+      Then I should see various men's shoes, including Nike Air Max 270, in the search results
+
+   Scenario: User sorts products by price (low to high)
+      Given I am viewing the search results for a specific product
+      When I sort the products by price (low to high)
+      Then the products should be displayed in ascending order of their prices
+
+   Scenario: User views product details
+      Given I am on the search results page
+      When I click on the Nike Air Max 270 product listed there
+      Then I should be redirected to the product detail page for Nike Air Max 270
+
+   Scenario: User adds a product to the cart
+      Given I am on the product detail page for Nike Air Max 270
+      When I click the "Add to Cart" button
+      Then the product should be added to my cart and its quantity updated accordingly
+
+   Scenario: User removes a product from the cart
+      Given I have added a Nike Air Max 270 product to my cart
+      When I navigate to my cart and click "Remove" next to the product
+      Then the product should be removed from my cart and its quantity updated accordingly
+
+   Scenario: User proceeds to checkout with items in the cart
+      Given I have a Nike Air Max 270 product in my cart
+      When I navigate to the checkout page and fill out the necessary information
+      Then I should be able to complete the purchase and receive a confirmation message for the transaction
+
+   Scenario: User applies a discount code at checkout
+      Given I have a Nike Air Max 270 product in my cart and a valid discount code "SAVE10"
+      When I enter the discount code at the checkout page and proceed to pay
+      Then the discount should be applied to the total cost, and I should see the updated amount before completing the purchase.

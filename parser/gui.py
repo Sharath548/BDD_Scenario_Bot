@@ -8,12 +8,14 @@ from parser.image_parser import extract_text_from_image
 from parser.text_cleanup import clean_text
 from parser.ollama_bdd_generator import generate_bdd_from_text
 from parser.file_exporter import save_bdd_to_file
+from parser.flow_parser import parse_flowchart_steps
+from parser.processing import chunk_text
 
 class TestScenarioBotGUI(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Manual Test Scenario Bot")
-        self.geometry("600x400")
+        self.geometry("600x450")
 
         # File type selection
         self.file_type_label = tk.Label(self, text="Select file type:")
@@ -22,10 +24,15 @@ class TestScenarioBotGUI(tk.Tk):
         self.file_type_combo = ttk.Combobox(self, textvariable=self.file_type_var, values=["pdf", "docx", "image"], state="readonly")
         self.file_type_combo.pack(fill="x", padx=10)
 
+        # Flowchart toggle
+        self.flowchart_var = tk.BooleanVar(value=True)
+        self.flowchart_check = tk.Checkbutton(self, text="Enable flowchart parsing for image files", variable=self.flowchart_var)
+        self.flowchart_check.pack(anchor="w", padx=10, pady=(5, 10))
+
         # File selection
         self.file_path_var = tk.StringVar()
         self.file_path_entry = tk.Entry(self, textvariable=self.file_path_var)
-        self.file_path_entry.pack(fill="x", padx=10, pady=(10, 0))
+        self.file_path_entry.pack(fill="x", padx=10, pady=(0, 5))
 
         self.browse_button = tk.Button(self, text="Browse File", command=self.browse_file)
         self.browse_button.pack(padx=10, pady=(0, 10))
@@ -81,7 +88,7 @@ class TestScenarioBotGUI(tk.Tk):
             messagebox.showerror("Error", "File does not exist.")
             return
 
-        self.log(f"Extracting text from {file_type} file...")
+        self.log(f"Processing {file_type} file...")
 
         try:
             if file_type == 'pdf':
@@ -89,10 +96,19 @@ class TestScenarioBotGUI(tk.Tk):
             elif file_type == 'docx':
                 text = extract_text_from_docx(file_path)
             else:
-                text = extract_text_from_image(file_path)
+                if self.flowchart_var.get():
+                    self.log("🔍 Detecting flowchart shapes and arrows...")
+                    steps = parse_flowchart_steps(file_path)
+                    if steps:
+                        text = "\n".join(steps)
+                        self.log(f"✅ Parsed {len(steps)} steps from flowchart")
+                    else:
+                        text = extract_text_from_image(file_path)
+                        self.log("⚠️ No flow elements found. Using OCR text instead.")
+                else:
+                    text = extract_text_from_image(file_path)
 
             self.log(f"Raw text length: {len(text)} characters")
-
             text = clean_text(text)
             self.log(f"Cleaned text length: {len(text)} characters")
 

@@ -1,4 +1,4 @@
- Feature: User Registration in Online Bookstore
+calca Feature: User Registration in Online Bookstore
 
    Scenario: Successful User Registration
       Given I am a new user visiting the Online Bookstore website

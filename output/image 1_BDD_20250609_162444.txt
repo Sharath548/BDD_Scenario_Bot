@@ -1,0 +1,28 @@
+ Feature: Tree Sitter Parser Functionality in Retail Application
+
+   Scenario: Verify the correct retrieval of context code using Tree Sitter Parser
+      Given I have the retail application open and ready for use
+      And I have a text string containing the Tree Sitter Parser command
+       When I input the text string into the application
+       Then the system should parse the text and retrieve the context code correctly
+         And the retrieved context code should be displayed on the screen
+         And I should verify that the retrieved context code matches the expected value "4"
+
+   Scenario: Verify the retrieval of additional information using Tree Sitter Parser
+      Given I have the retail application open and ready for use
+      And I have a text string containing the Tree Sitter Parser command with multiple fields
+       When I input the text string into the application
+       Then the system should parse the text and retrieve the necessary information correctly
+         And the retrieved information (Context Code, Docs, and question) should be displayed on the screen separately
+         And I should verify that the retrieved context code matches the expected value "8"
+         And I should verify that the retrieved documents are accessible and contain the correct information
+         And I should verify that the retrieved question is relevant to the given text
+
+   Scenario: Verify the Tree Sitter Parser's ability to handle errors gracefully
+      Given I have the retail application open and ready for use
+      And I input an incorrect or malformed text string into the Tree Sitter Parser
+       When I attempt to parse the text
+       Then the system should recognize the error and display a clear and concise error message
+         And I should not be able to retrieve any information from the parsed text
+         And I should verify that the displayed error message indicates the nature of the error (e.g., missing field, incorrect syntax)
+         And I should have the option to correct the error and try again with the Tree Sitter Parser command

@@ -1,0 +1,25 @@
+ Feature: Product Search in Retail Application
+
+   Scenario: User can search for a product by its name
+      Given the user is on the homepage of the retail application
+      When the user enters a product name in the search bar and clicks 'Search'
+      Then the system should return a list of products that match the entered name
+      And the first product in the list should be the one with the most relevance to the searched name
+      When the user clicks on the selected product, they should be redirected to the product details page
+      Then the user should see the details of the selected product displayed on the product details page
+
+   Scenario: User can search for a product by its SKU number
+      Given the user is on the homepage of the retail application
+      When the user enters a valid SKU number in the search bar and clicks 'Search'
+      Then the system should return the product details that match the entered SKU number
+      And the system should not return any other products
+      When the user clicks on the 'View Product' button, they should be redirected to the product details page
+      Then the user should see the details of the selected product displayed on the product details page
+
+   Scenario: User receives an error message when entering invalid search criteria
+      Given the user is on the homepage of the retail application
+      When the user enters an invalid search criteria in the search bar and clicks 'Search'
+      Then the system should display an error message indicating that the search criteria is invalid
+      And the system should not return any products or redirect the user to a different page
+      When the user corrects the search criteria and clicks 'Search' again
+      Then the system should handle the corrected search criteria appropriately as described in Scenario 1 or Scenario 2

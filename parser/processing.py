@@ -6,6 +6,7 @@ from parser.text_cleanup import clean_text
 from parser.ollama_bdd_generator import generate_bdd_from_text
 from parser.file_exporter import save_bdd_to_file
 from parser.vector_store import VectorStore
+from parser.flow_parser import parse_flowchart_steps
 import threading
 
 SUPPORTED_FORMATS = (
@@ -13,16 +14,15 @@ SUPPORTED_FORMATS = (
     '.py', '.js', '.java', '.cpp', '.cs', '.rb', '.go'
 )
 
-MAX_CHUNK_SIZE = 3000  # for Ollama input
-SIMILARITY_THRESHOLD = 0.92  # for duplicate detection
+IMAGE_FORMATS = ('.png', '.jpg', '.jpeg')
+MAX_CHUNK_SIZE = 3000  # For LLM input
+SIMILARITY_THRESHOLD = 0.92
 
 vector_store = VectorStore()
-
 
 def extract_text_from_code(input_path):
     with open(input_path, 'r', encoding='utf-8') as f:
         return f.read()
-
 
 def chunk_text(text, max_size=MAX_CHUNK_SIZE):
     chunks = []
@@ -39,16 +39,14 @@ def chunk_text(text, max_size=MAX_CHUNK_SIZE):
         start = split_pos + 1
     return chunks
 
-
 def process_file(input_path, output_format, domain_or_prompt=None,
                  progress_callback=None, cancel_event=None, preview_only=False):
     """
-    Processes a file and returns either a preview BDD text (if preview_only=True)
-    or saves and returns the output file path and BDD text.
-    Supports cancellation via cancel_event.
-    Reports progress via progress_callback(pct, status).
+    Processes a file (image, PDF, DOCX, or code) and returns a BDD scenario.
+    For image files, it attempts to extract a detailed flow (including decision points)
+    and then generates BDD text.
     """
-
+    
     def update_progress(pct, status):
         if progress_callback:
             progress_callback(pct, status)
@@ -63,17 +61,41 @@ def process_file(input_path, output_format, domain_or_prompt=None,
     if ext not in SUPPORTED_FORMATS:
         raise ValueError(f"Unsupported file format: {ext}")
 
-    update_progress(10, "🔍 Extracting text...")
-    if ext == '.pdf':
+    update_progress(10, "🔍 Extracting text or flowchart...")
+
+    text = ""
+    bdd = ""
+    instructions = None
+
+    if ext in IMAGE_FORMATS:
+        try:
+            instructions = parse_flowchart_steps(input_path)
+        except Exception as e:
+            instructions = []
+        if instructions and any(instr.strip() for instr in instructions):
+            update_progress(60, "💬 Generating BDD from flowchart...")
+            # Concatenate the detailed flow instructions into a single text block.
+            flow_text = "\n".join(instructions)
+            bdd = generate_bdd_from_text(flow_text, domain_or_prompt)
+        else:
+            text = extract_text_from_image(input_path)
+    elif ext == '.pdf':
         text = extract_text_from_pdf(input_path)
     elif ext == '.docx':
         text = extract_text_from_docx(input_path)
-    elif ext in ['.png', '.jpg', '.jpeg']:
-        text = extract_text_from_image(input_path)
     elif ext in ['.py', '.js', '.java', '.cpp', '.cs', '.rb', '.go']:
         text = extract_text_from_code(input_path)
     else:
         raise ValueError("Unsupported file type")
+
+    if ext in IMAGE_FORMATS and instructions and bdd:
+        if preview_only:
+            update_progress(85, "Preview from flowchart generated.")
+            return bdd
+        output_path = save_bdd_to_file(bdd, output_format, input_path, output_dir="output")
+        vector_store.add("\n".join(instructions), bdd, input_path, domain_or_prompt, tags=[domain_or_prompt])
+        update_progress(100, "Done.")
+        return output_path, bdd
 
     if not text.strip():
         raise ValueError("File contains no extractable text")
@@ -83,20 +105,16 @@ def process_file(input_path, output_format, domain_or_prompt=None,
     if len(text) < 50:
         raise ValueError("Extracted text too short for scenario generation")
 
-    if domain_or_prompt is None or domain_or_prompt.strip() == "":
+    if not domain_or_prompt or domain_or_prompt.strip() == "":
         domain_or_prompt = "General"
 
-    prompt_base = ""
-    if domain_or_prompt.lower() == "code" or "code" in domain_or_prompt.lower():
+    prompt_base = "Generate BDD test scenarios based on the following information."
+    if "code" in domain_or_prompt.lower():
         prompt_base = "Generate BDD test scenarios based on the following source code."
-    else:
-        prompt_base = domain_or_prompt
 
-    # Check for duplicates
-    if vector_store.is_duplicate(text, threshold=SIMILARITY_THRESHOLD):
-        raise ValueError("❌ Duplicate detected: This input is too similar to a previous one.")
+   # if vector_store.is_duplicate(text, threshold=SIMILARITY_THRESHOLD):
+   #     raise ValueError("❌ Duplicate detected: This input is too similar to a previous one.")
 
-    # RAG-style prompt enrichment
     similar_contexts = vector_store.search(text, top_k=2)
     context_str = "\n\n".join([ctx['metadata']['output'] for ctx in similar_contexts if ctx['metadata']['output']])
     final_prompt = f"{prompt_base}\n\nUse this prior knowledge if helpful:\n{context_str}\n\nGenerate scenarios for:\n"
@@ -117,15 +135,12 @@ def process_file(input_path, output_format, domain_or_prompt=None,
     else:
         bdd = generate_bdd_from_text(text, final_prompt)
 
-    # Return preview only if requested
     if preview_only:
         update_progress(85, "Preview generated.")
         return bdd
 
     update_progress(90, "💾 Saving output...")
     output_path = save_bdd_to_file(bdd, output_format, input_path, output_dir="output")
-
-    # Store in vector DB with tags (domain)
     tags = [domain_or_prompt] if domain_or_prompt else []
     vector_store.add(text, bdd, input_path, domain_or_prompt, tags=tags)
 

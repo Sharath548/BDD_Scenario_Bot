@@ -1,0 +1,41 @@
+ Scenario: Analyzing Bronze Enrollment Display Star Rewards Form Error Messages (Phone number capture on CRU)
+      Given I have the text data related to a Bronze Enrollment Display Star Rewards Form error message
+      When I analyze the text data for error messages related to phone number capture, service availability, and customer details validation
+      Then I should find:
+        1. Service currently Unavailable, Please Phone Number try again later
+        2. (Message on screen) No Capture Customer First Name, Last Name, Data of Birth (MMDD), Email Service currently Validation Failed unavailable, please try again later
+
+   Scenario: Analyzing Bronze Enrollment Display Star Rewards Form Error Messages (Customer Details Validation)
+      Given I have the text data related to a Bronze Enrollment Display Star Rewards Form error message with customer details validation issues
+      When I analyze the text data for error messages related to customer details validation
+      Then I should find:
+        1. (Message on screen) No Capture Customer First Name, Last Name, Data of Birth (MMDD), Email Service currently Validation Failed unavailable, please try again later
+
+   Scenario: Verifying Phone Number Capture on CRU and Service Availability Error Message
+      Given I have the text data related to a Bronze Enrollment Display Star Rewards Form error message with phone number capture issues and service availability errors
+      When I analyze the text data for error messages related to phone number capture and service availability
+      Then I should find:
+        1. Service currently Unavailable, Please Phone Number try again later
+
+   Scenario: Verifying Bronze Enrollment Display Star Rewards Form Customer Details Validation Error Message (Yes)
+      Given I have the text data related to a Bronze Enrollment Display Star Rewards Form error message with customer details validation issues (Yes)
+      When I analyze the text data for error messages related to customer details validation
+      Then I should find:
+        1. (Message on screen) No Capture Customer First Name, Last Name, Data of Birth (MMDD), Email Service currently Validation Failed unavailable, please try again later
+
+   Scenario: Verifying Bronze Enrollment Display Star Rewards Form Customer Details Validation Error Message (No)
+      Given I have the text data related to a Bronze Enrollment Display Star Rewards Form error message with customer details validation issues (No)
+      When I analyze the text data for error messages related to customer details validation
+      Then I should find no error message related to customer details validation, as it is validated successfully.
+
+   Scenario: Analyzing Confirmation Form Error Message on CRU (Customer Service Response)
+      Given I have the text data related to a Confirmation form error message on CRU with customer service response issues
+      When I analyze the text data for error messages related to customer service response and call status
+      Then I should find:
+        1. Customer Service currently response ( unavailable, please YesNo) try again later
+
+   Scenario: Analyzing Confirmation Form Error Message on CRU (Call Status)
+      Given I have the text data related to a Confirmation form error message on CRU with call status issues
+      When I analyze the text data for error messages related to customer service response and call status
+      Then I should find:
+        1. 500ish Customer Enrollment Enrollment 200 Call call status

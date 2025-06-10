@@ -1,0 +1,33 @@
+ Feature: Verifying Text Data Analysis in the System - Retail (Enhanced)
+
+   Scenario: Analyzing Bronze Enrollment Form Error Messages
+      Given I have the text data related to a Bronze Enrollment Form with error messages
+      When I analyze the text data for error messages related to phone number capture, customer details validation, and call status
+      Then I should find the following error messages:
+        1. Service currently Unavailable, Please Phone Number try again later
+        2. (Message on screen) No Capture Customer First Name, Last Name, Data of Birth (MMDD), Email Service currently Validation Failed unavailable, please try again later
+        3. Call I L n o fo y a fo lt r y p S o u in m ts mary Su c m a L ll m o s y a t a a ry l t t u y I s n  for 200 B C a u s s k t e o t p m S o e c in r r e t I s n e ) f n o ( a w n i d th Tender Call T P r r a o n c s e a s c s t I l o n yalty No Call CC2 For retrieving preference No Display Enrollment Successful message on Screen Service Currently CC2 Call status unavailable, please try again later
+
+   Scenario: Analyzing Confirmation Form Error Messages
+      Given I have the text data related to a Confirmation form with error messages
+      When I analyze the text data for error messages related to customer service response and call status
+      Then I should find the following error messages:
+        1. Customer Service currently response ( unavailable, please YesNo) try again later
+        2. 500ish Customer Enrollment Enrollment 200 Call call status
+
+   Scenario: Analyzing Bronze Enrollment Loyalty Call Data
+      Given I have the text data related to a Bronze Enrollment Loyalty Call
+      When I analyze the text data for the enrollment trigger, phone number information, customer demographic information, purchase (basket), tender, and loyalty process information
+      Then I should find that:
+        1. The trigger type is "Phone Number Capture" and the phone number is present in the text data
+        2. All required demographic information is present but the system cannot process it due to an error
+        3. The tender involves a loyalty process transaction, but the call status is unavailable
+        4. Potential errors in the loyalty lookup summary are found, as it indicates an unavailable service or error in processing customer details
+
+   Scenario: Checking for Certificate of Completion Errors
+      Given I have the text data related to a Certificate of Completion mention
+      When I analyze the text data for potential errors
+      Then I should find that:
+        1. The "Certificate of Completion" is in the displayed text data but it does not contain necessary details to validate the certificate
+        2. The name of the recipient is empty or invalid due to an error
+        3. There is no course, date, time, or any other relevant information related to the certificate

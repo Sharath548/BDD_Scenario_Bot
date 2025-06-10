@@ -1,0 +1,26 @@
+ Feature: Verifying Text Data Analysis in the System
+
+   Scenario: Analyzing Loyalty Call Trigger Information
+      Given I have the text data related to a Bronze Lookup Loyalty Call
+      When I analyze the text data for the trigger and phone number information
+      Then I should find the trigger type as "By Phone Number" and the phone number present in the text data
+
+   Scenario: Checking for Customer Enrollment Information
+      Given I have the text data related to a Bronze Lookup Loyalty Call
+      When I analyze the text data for customer enrollment information
+      Then I should find if there is a customer capture screen involved in the process or not
+
+   Scenario: Verifying the Display of Loyalty Points Summary
+      Given I have the text data related to a Bronze Lookup Loyalty Call
+      When I analyze the text data for loyalty points summary information
+      Then I should find that it is present in the text data and ready to be displayed
+
+   Scenario: Analyzing Purchase (Basket) Tender and Loyalty Process Information
+      Given I have the text data related to a Bronze Lookup Loyalty Call
+      When I analyze the text data for purchase (basket), tender, and loyalty process information
+      Then I should find that the tender involves loyalty process transaction and the purpose is to accumulate loyalty points
+
+   Scenario: Checking for Loyalty Lookup Summary Errors
+      Given I have the text data related to a Bronze Lookup Loyalty Call
+      When I analyze the text data for potential errors in the loyalty lookup summary
+      Then I should not find any errors in the displayed loyalty lookup summary if it's correct

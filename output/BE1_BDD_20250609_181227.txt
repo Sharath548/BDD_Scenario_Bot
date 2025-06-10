@@ -1,0 +1,65 @@
+ Title: User Navigation and Data Transfers in Retail Application
+
+   Given a user is logged into the retail application
+
+   When the user navigates from the home screen ('é') via '|' to the 'Service Curently' section
+
+   Then the user should be able to see 'Unarisble Pesse urbe’ and other relevant information
+
+   When the user enters 'pense 9' in the 'Service Curently' section via 'Pee', 'oes pe', or 'oases'
+
+   Then the user should be directed to 'Penton alae'
+
+   When the user navigates from the home screen ('é') via '|' to the 'Service Curently' section
+
+   And the user enters 'pense 9' in the 'Service Curently' section via 'poee oe', '——', or any other valid input that leads to 'acon'
+
+   Then the user should be directed to 'Penton alae'
+
+   When the user navigates from the home screen ('é') via a different path that leads to 'Service Curently' section
+
+   Then the user should still be able to reach 'Penton alae' through valid navigation paths such as '[sees', 'pape on', 'jana bas', 'os Ens |', etc.
+
+   When the user navigates from any screen via '|' to 'Penton alae'
+
+   Then the user should be able to navigate back to the previous screen (e.g., '[pep eae our'] or home screen ('é'))
+
+   Given a user is on the 'Service Curently' section and navigates via 'cone 58', '[sees', 'saneae', or other valid paths that lead to 'Piz'
+
+   When the user reaches 'Piz' from any of these paths
+
+   Then the user should be able to navigate back to 'Penton alae' via '|'
+
+   Given a user is on the home screen ('é') or another screen, and enters a valid path that leads to 'Service Curently', e.g., '[pep eae our'] or any other valid input
+
+   When the user reaches 'Service curently | Unarisble Pesse urbe’
+
+   Then the user should be able to navigate to 'Penton alae' through valid paths such as 'cone 58', '[sees', etc.
+
+   Given a user is on any screen and enters a valid path that leads to 'Service curently | Unarisble Pesse urbe’, e.g., '<>}'
+
+   When the user reaches 'Service curently | Unarisble Pesse urbe’ from any of these paths
+
+   And the user's current screen is 'amy eee'
+
+   Then the user should be directed to '[pep eae our]' if 'amy eee' is equal to 'Oe'
+
+   Or the user should be directed to 'L amine' if 'amy eee' is equal to 'Eva |'
+
+   Or the user should remain on the current screen ('é') if 'amy eee' is equal to 'SE' or any other unsupported value
+
+   Given a user is on the home screen ('é') or another screen, and enters a valid path that leads to 'Service curently | Unarisble Pesse urbe’, e.g., '<>}'
+
+   When the user reaches 'Service curently | Unarisble Pesse urbe’ from any of these paths
+
+   And the user's current screen is not 'amy eee'
+
+   Then the user should still be able to navigate to 'L amine' or other valid destinations, depending on the specific path taken.
+
+   Given a user is on the home screen ('é') or another screen, and enters a valid path that leads to 'Service curently | Unarisble Pesse urbe’, e.g., '<>}'
+
+   When the user reaches 'Service curently | Unarisble Pesse urbe’ from any of these paths
+
+   And the user's current screen is 'acon'
+
+   Then the user should be able to navigate back to 'Penton alae' via '|' or any other valid navigation path that leads to it.
